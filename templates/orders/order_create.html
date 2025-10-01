@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+{% block body %}
+<h2>Создать заказ</h2>
+<form method="post">{% csrf_token %}
+  <label>Товар
+    <select name="product">
+      {% for p in products %}
+        <option value="{{ p.id }}">{{ p.name }} — {{ p.price }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Количество<input name="quantity" type="number" value="1" min="1"></label>
+  <button type="submit">Создать</button>
+</form>
+{% for m in messages %}<div>{{ m }}</div>{% endfor %}
+{% endblock %}
+
+

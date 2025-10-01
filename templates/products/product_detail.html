@@ -1,0 +1,9 @@
+{% extends 'home.html' %}
+{% block body %}
+<h2>{{ product.name }}</h2>
+<p>Категория: {{ product.category.name }}</p>
+<p>Цена: {{ product.price }}</p>
+<p>{{ product.description }}</p>
+{% endblock %}
+
+

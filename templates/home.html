@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Home</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+<body>
+  <h1>Магазин</h1>
+  <nav>
+    <a href="/products/">Товары</a>
+    {% if request.user.is_authenticated %}
+      | <a href="/orders/">Мои заказы</a>
+      | <a href="/profile/">Профиль</a>
+      | <a href="/logout/">Выйти</a>
+    {% else %}
+      | <a href="/login/">Войти</a>
+      | <a href="/register/">Регистрация</a>
+    {% endif %}
+  </nav>
+  <p>Добро пожаловать!</p>
+  {% block body %}{% endblock %}
+</body>
+</html>
+
+

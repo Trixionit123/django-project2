@@ -1,0 +1,13 @@
+{% extends 'home.html' %}
+{% block body %}
+<h2>Профиль</h2>
+<form method="post">{% csrf_token %}
+  <label>Email<input name="email" value="{{ user_obj.email }}"></label>
+  <label>Телефон<input name="phone" value="{{ user_obj.phone|default:'' }}"></label>
+  <label>Адрес<textarea name="address">{{ user_obj.address|default:'' }}</textarea></label>
+  <button type="submit">Сохранить</button>
+</form>
+{% for m in messages %}<div>{{ m }}</div>{% endfor %}
+{% endblock %}
+
+
