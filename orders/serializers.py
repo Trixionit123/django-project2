@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from decimal import Decimal
 from .models import Order, OrderItem
 
 
@@ -19,10 +20,10 @@ class OrderSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         items_data = validated_data.pop('items', [])
         order = Order.objects.create(**validated_data)
-        total = 0
+        total = Decimal('0')
         for item in items_data:
             order_item = OrderItem.objects.create(order=order, **item)
-            total += order_item.price * order_item.quantity
+            total += (Decimal(order_item.price) * order_item.quantity)
         order.total_price = total
         order.save()
         return order
