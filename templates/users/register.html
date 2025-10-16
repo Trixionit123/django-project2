@@ -1,0 +1,13 @@
+{% extends 'home.html' %}
+{% block body %}
+<h2>Регистрация</h2>
+<form method="post">{% csrf_token %}
+  <label>Логин<input name="username" required></label>
+  <label>Email<input name="email"></label>
+  <label>Пароль<input name="password" type="password" required></label>
+  <button type="submit">Создать</button>
+</form>
+{% for m in messages %}<div>{{ m }}</div>{% endfor %}
+{% endblock %}
+
+

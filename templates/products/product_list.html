@@ -1,0 +1,13 @@
+{% extends 'home.html' %}
+{% block body %}
+<h2>Товары</h2>
+<ul>
+  {% for p in products %}
+    <li><a href="/products/{{ p.id }}/">{{ p.name }}</a> — {{ p.price }} ({{ p.category.name }})</li>
+  {% empty %}
+    <li>Нет товаров</li>
+  {% endfor %}
+  </ul>
+{% endblock %}
+
+

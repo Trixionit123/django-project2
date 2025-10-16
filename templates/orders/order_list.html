@@ -1,0 +1,20 @@
+{% extends 'home.html' %}
+{% block body %}
+<h2>Мои заказы</h2>
+<a href="/orders/create/">Создать заказ</a>
+<ul>
+  {% for o in orders %}
+    <li>#{{ o.id }} — {{ o.status }} — {{ o.total_price }} — {{ o.created_at }}
+      <ul>
+        {% for i in o.items.all %}
+          <li>{{ i.product.name }} × {{ i.quantity }} = {{ i.price }}</li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% empty %}
+    <li>Заказов нет</li>
+  {% endfor %}
+  </ul>
+{% endblock %}
+
+
