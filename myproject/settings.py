@@ -53,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'myproject.middleware.RequestTimingMiddleware',
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -148,40 +147,3 @@ REST_FRAMEWORK = {
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
-# Celery configuration (use environment variables in production)
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
-CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', CELERY_BROKER_URL)
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = TIME_ZONE
-
-# Order confirmation outbox directory for rendering email content to files
-ORDER_CONFIRMATION_OUTBOX = BASE_DIR / 'outbox'
-
-# Kafka settings
-KAFKA_BROKER_URL = os.getenv('KAFKA_BROKER_URL', 'localhost:9092')
-KAFKA_ORDERS_TOPIC = os.getenv('KAFKA_ORDERS_TOPIC', 'orders')
-
-# Housekeeping and auto-status thresholds (hours/days)
-ORDER_PENDING_MAX_AGE_HOURS = int(os.getenv('ORDER_PENDING_MAX_AGE_HOURS', '24'))
-ORDER_PROCESSING_TO_SHIPPED_HOURS = int(os.getenv('ORDER_PROCESSING_TO_SHIPPED_HOURS', '12'))
-OUTBOX_FILE_MAX_AGE_DAYS = int(os.getenv('OUTBOX_FILE_MAX_AGE_DAYS', '7'))
-
-# Celery beat schedule for periodic tasks
-from celery.schedules import crontab
-CELERY_BEAT_SCHEDULE = {
-    'cancel-stale-pending-orders-every-hour': {
-        'task': 'orders.tasks.cancel_stale_pending_orders',
-        'schedule': 60 * 60,  # every hour
-    },
-    'auto-ship-processing-orders-every-30m': {
-        'task': 'orders.tasks.auto_ship_processing_orders',
-        'schedule': 30 * 60,  # every 30 minutes
-    },
-    'clean-old-outbox-files-daily-nightly': {
-        'task': 'orders.tasks.clean_old_outbox_files',
-        'schedule': crontab(minute=0, hour=3),  # daily at 03:00
-    },
-}
