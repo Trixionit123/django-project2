@@ -1,0 +1,20 @@
+Order confirmation
+
+Order ID: {{ order.id }}
+User: {{ user.username }} ({{ to_email }})
+Created at: {{ order.created_at }}
+Status: {{ order.status }}
+
+Items:
+{% for i in items %}
+- {{ i.product.name }} × {{ i.quantity }} = {{ i.price }}
+{% endfor %}
+
+Total: {{ order.total_price }}
+
+Generated at: {{ timestamp }}
+
+
+
+
+
